@@ -3,9 +3,8 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import google.generativeai as genai
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceEmbeddings
-
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
 #CONFIG
 from dotenv import load_dotenv
 load_dotenv()
@@ -98,6 +97,6 @@ def chat():
 
 #RUN
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # lấy PORT từ Render, local thì 5000
+    port = int(os.environ.get("PORT", 5000))  # Render sẽ truyền PORT, local mặc định 5000
     print(f"🚀 Starting Flask app on port {port}")
     app.run(host="0.0.0.0", port=port, debug=True)
