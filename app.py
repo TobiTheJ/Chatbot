@@ -98,5 +98,6 @@ def chat():
 
 #RUN
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5000))  # lấy PORT từ Render, local thì 5000
+    print(f"🚀 Starting Flask app on port {port}")
     app.run(host="0.0.0.0", port=port, debug=True)
