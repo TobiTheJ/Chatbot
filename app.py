@@ -33,17 +33,29 @@ if not docs:
 
 # EMBEDDING MODEL
 embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",#sentence-transformers/all-MiniLM-L6-v2
     model_kwargs={"device": "cpu"}  #cuda
 )
 
-# BUILD / LOAD FAISS 
+# EMBEDDING MODEL (chỉ khi cần build mới khởi tạo)
+embedding_model = None
+
 if not os.path.exists(INDEX_PATH):
-    print(" Chưa có index ")
+    print("⚡ Chưa có index → Tạo mới...")
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    embedding_model = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",
+        model_kwargs={"device": "cpu"}
+    )
     vectorstore = FAISS.from_texts(docs, embedding_model)
     vectorstore.save_local(INDEX_PATH)
 else:
-    print(" Đã có index ")
+    print("✅ Đã có index → Load nhanh...")
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    embedding_model = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",
+        model_kwargs={"device": "cpu"}
+    )
     vectorstore = FAISS.load_local(
         INDEX_PATH,
         embedding_model,
